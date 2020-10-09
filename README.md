@@ -1,6 +1,17 @@
 # `au-signaler-issue`
 
-This is to demonstrate an issue when testing Aurelia components which are registered as global resources and using `signal` binding behaviour.
+This is to demonstrate an issue when testing an Aurelia component library where components are registered as global resources and using `signal` binding behaviour.
+
+The problem occurs when unit-testing the components using `aurelia-testing` plugin. In this example two components are using `signal` binding behaviour with different signal names. There are two test cases for component `parent1`, and `parent2`.
+https://github.com/reinholdk/au-signaler-issue/blob/fb030b91fe521f81c146549f7493c2f144317559/test/unit/app.spec.js#L26
+https://github.com/reinholdk/au-signaler-issue/blob/fb030b91fe521f81c146549f7493c2f144317559/test/unit/app.spec.js#L45
+In each test case a new aurelia instance is bootstrapped.
+Signals stop working for the test that runs second and are not received in the respective bindings (of component `comp2`).
+https://github.com/reinholdk/au-signaler-issue/blob/fb030b91fe521f81c146549f7493c2f144317559/src/comp2.html#L3
+
+The second test succeeds when running standalone (e.g. using `fit(...)`).
+Both components `parent1`, and `parent2` are registered as global resources. If global registration is omitted, the problem does not occur.
+https://github.com/reinholdk/au-signaler-issue/blob/fb030b91fe521f81c146549f7493c2f144317559/src/index.js#L4
 
 This project is bootstrapped by [aurelia-cli](https://github.com/aurelia/cli).
 
